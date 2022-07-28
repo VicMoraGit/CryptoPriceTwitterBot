@@ -2,9 +2,12 @@
     Runs bot main process.
 
 """
-
+#Exceptions
 from custom_exceptions import SettingsNotLoadedException
+
+#Settings
 from settings import Settings
+
 
 
 if __name__ == "__main__":

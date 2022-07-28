@@ -52,7 +52,7 @@ class Settings:
             return False
 
         except FileNotFoundError:
-            
+
             print("File does not exists")
             return False
 
