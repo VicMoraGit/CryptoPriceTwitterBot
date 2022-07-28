@@ -9,12 +9,24 @@ class Settings:
     """
         Imports, store and exports bot settings
     """
-    def __init__(self) -> None:
+    def __init__(self, config_file_path:str) -> None:
         self.is_first_run = None
+        self.config_file_path = config_file_path
 
-    def load(self, config_file_path:str) -> bool:
+    def save(self):
+        """
+            Saves settings on current configuration file path
+        """
+        settings_dict ={
+            "isFirstRun": self.is_first_run,
+        }
 
-        """Loads all the config file parameters to the settings class
+        self._save_file(settings_dict)
+
+    def load(self) -> bool:
+
+        """
+            Loads all the config file parameters to the settings class
 
         Args:
             config_file_path (str): Configuration file path
@@ -23,7 +35,7 @@ class Settings:
             bool: returns whether settings loading process was or not successful
         """
         try:
-            settings = self._parse_config_file(config_file_path)
+            settings = self._config_file2json()
             self.is_first_run = settings["isFirstRun"]
 
         except Exception:
@@ -31,28 +43,28 @@ class Settings:
             return False
         return True
 
-    def _parse_config_file(self, config_file_path:str):
-        """Returns a json object from the configuration file contents
+    def _config_file2json(self):
 
-        Args:
-            config_file_path (str): Configuration file path
-
-        Returns:
-            dict: Contains configuration parameters as a json object
-        """
-        settings = json.loads(self._open_file(config_file_path))
+        settings = json.loads(self._read_file())
         return settings
 
-    def _open_file(self, file_path:str):
-        """Opens a file
+    def _json2config_file(self,settings_dict):
 
-        Args:
-            file_path (str): file path
+        settings_str = json.loads(settings_dict)
+        return settings_str
 
-        Returns:
-            str: file content
-        """
-        with open(file=file_path, mode="r", encoding="UFT-8") as file:
+    def _read_file(self):
+        
+        with open(file=self.config_file_path, mode="r", encoding="UFT-8") as file:
             json_content = file.read()
             file.close()
         return json_content
+
+    def _save_file(self, settings_dict):
+
+        settings_str = self._json2config_file(settings_dict)
+
+        with open(file=self.config_file_path, mode="w", encoding="UFT-8") as file:
+            file.write(settings_str)
+            file.close()
+        
