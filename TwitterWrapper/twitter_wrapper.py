@@ -34,7 +34,7 @@ class Twitter():
         
         self.tweepy_api = tweepy.API(auth)
         
-    def post_tweet(self, price:int, isBiggerThanLast:bool, coinSymbol:str
+    def post_tweet(self, price:int, is_bigger_than_last:bool, coin_symbol:str
     ) -> bool:
         """Posts a tweet on a given account
 
@@ -45,8 +45,10 @@ class Twitter():
             bool: Status
         """
 
-        if isBiggerThanLast:
-            message = f"${coinSymbol} is "
+        if is_bigger_than_last:
+            message = f"${coin_symbol} has rised to ${str(price)}📈"
+        else:
+            message = f"${coin_symbol} has fallen to ${str(price)}📉"
 
         print(self.tweepy_api.update_status(message))
         

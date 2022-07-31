@@ -17,7 +17,7 @@ class Settings:
         self.twitter_api_key = None
         self.twitter_api_key_secret = None
         self.cmc_api_key = None
-        
+
     def save(self):
         """
             Saves settings on current configuration file path
@@ -25,7 +25,19 @@ class Settings:
         Returns:
             bool: Status of the operation
         """
+        coins = []
+
+        for coin in self.coins:
+            coins.append(coin.to_map())
+
         settings_dict ={
+            "CMCApiKey":self.cmc_api_key,
+            "twitterOAuth2": {
+                "APIKey": self.twitter_api_key,
+                "APIKeySecret": self.twitter_api_key_secret
+            },
+            "coins": coins
+
         }
 
         try:
@@ -52,7 +64,7 @@ class Settings:
             self.coins = self._get_coins_list(settings["coins"])
             self.twitter_api_key =  settings["twitterOAuth2"]["APIKey"]
             self.twitter_api_key_secret = settings["twitterOAuth2"]["APIKeySecret"]
-            self.cmc_api_key = settings["CMCAPIKey"]
+            self.cmc_api_key = settings["CMCApiKey"]
         except KeyError:
 
             print("Wrong configuration file format.")
