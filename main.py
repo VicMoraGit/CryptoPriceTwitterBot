@@ -59,9 +59,7 @@ if __name__ == "__main__":
         currentPriceIntervalRounded = myfloor(currentPrice,coin.interval)
 
         lastPrice = coin.last_price
-        print(lastPrice)
-        print(currentPriceIntervalRounded)
-
+       
         #If price is less than last interval it checks if it reached the next lower interval
         #If price is higuer than last interval it checks if it reached 
         # the next higher interval (using floor we get rid of this)
