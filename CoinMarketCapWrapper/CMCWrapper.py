@@ -34,9 +34,9 @@ class CMC():
         endpoint = "v2/cryptocurrency/quotes/latest"
         query = "?symbol="+",".join(coin_symbols)
         complete_url = url+endpoint+query
-        print(complete_url)
+        
         response = get(complete_url,headers=headers)
-        print(response)
+
         coins = response.json()["data"]
         coin_symbols = list(coins.keys())
 
