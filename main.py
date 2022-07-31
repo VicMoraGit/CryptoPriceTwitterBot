@@ -29,6 +29,20 @@ def myfloor(num:float, base:int):
     """
     return base * floor(num/base)
 
+def get_coin_symbols(coins):
+    """returns all the coin symbols in a list
+
+    Args:
+        coins (_type_): coins of the configuration files
+
+    Returns:
+        list: coin symbols
+    """
+    symbols=[]
+    for _coin in coins:
+        symbols.append(_coin.symbol)
+    return symbols
+
 
 if __name__ == "__main__":
 
@@ -48,6 +62,9 @@ if __name__ == "__main__":
     tw = Twitter(settings.twitter_api_key,settings.twitter_api_key_secret)
     cmc = CMC(settings.cmc_api_key)
 
+    #Get price for each crypto on the settings file
+    coin_symbols = get_coin_symbols(settings.coins)
+    price_dict = cmc.get_coins_price(coin_symbols)
 
     #Iterate over every coin account
 
@@ -55,7 +72,7 @@ if __name__ == "__main__":
 
         #Price comparison
 
-        currentPrice = round(cmc.get_coin_price(coin.symbol),2)
+        currentPrice = round(price_dict[coin.symbol],2)
         currentPriceIntervalRounded = myfloor(currentPrice,coin.interval)
 
         lastPrice = coin.last_price

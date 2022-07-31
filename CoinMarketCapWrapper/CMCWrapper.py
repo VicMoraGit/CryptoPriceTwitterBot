@@ -18,7 +18,7 @@ class CMC():
     def __init__(self,api_key:str):
         self.api_key = api_key
 
-    def get_coin_price(self, coin_symbol:str):
+    def get_coins_price(self, coin_symbols:list):
         """Returns price of a given coin
 
         Args:
@@ -27,14 +27,20 @@ class CMC():
         Returns:
             _type_: _description_
         """
+        price_dict = {}
         headers = {"X-CMC_PRO_API_KEY":self.api_key}
 
         url = "https://pro-api.coinmarketcap.com/"
         endpoint = "v2/cryptocurrency/quotes/latest"
-        query = f"?symbol={coin_symbol}"
+        query = "?symbol="+",".join(coin_symbols)
         complete_url = url+endpoint+query
-
+        print(complete_url)
         response = get(complete_url,headers=headers)
-        price = response.json()["data"][coin_symbol][0]["quote"]["USD"]["price"]
+        print(response)
+        coins = response.json()["data"]
+        coin_symbols = list(coins.keys())
+
+        for symbol in coin_symbols:
+            price_dict[symbol] = coins[symbol][0]["quote"]["USD"]["price"]
         
-        return price
+        return price_dict
