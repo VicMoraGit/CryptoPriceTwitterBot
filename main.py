@@ -1,5 +1,5 @@
 """
-    Runs bot main process.
+    This bot can manage multiple automated twitter price accounts
 
 """
 #Exceptions
@@ -20,3 +20,4 @@ if __name__ == "__main__":
 
     if not IS_LOADED:
         raise SettingsNotLoadedException()
+    
