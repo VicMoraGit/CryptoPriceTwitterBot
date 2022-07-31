@@ -1,0 +1,18 @@
+{
+    "CMCApiKey": "0dbe2350-d34e-NotRealApiKey-a361-7626e9fe0ead",
+    "twitterOAuth2": {
+        "APIKey": "T8wetfNotRealApiKeyT68gt8MI",
+        "APIKeySecret": "wOq33ddfOClLpIj-NotRealApiKey-EzTnkCB986BtuF78Gs9nqb511cB22"
+    },
+    "coins": [
+        {
+            "symbol": "ETH",
+            "interval": 50,
+            "lastPricePosted": 1700,
+            "twitterAccount": {
+                "oauthToken": "15520611sd912-NotRealToken-63YDDvlYeZXewr3C3JWDMfJXF",
+                "oauthTokenSecret": "HfSlKS3voqv912-NotRealToken-63YbP2tBR8IV8kwCO"
+            }
+        }
+    ]
+}
