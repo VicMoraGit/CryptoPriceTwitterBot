@@ -12,19 +12,30 @@ class Twitter():
     Attributes:
         app_api_key (str): You can find this API Key in your twitter developer portal
         app_api_key_secret (str): You can find this API Key in your twitter developer portal
-        user_oauth_token(str): Bot account token
-        user_oauth_token_secret(str): Bot account token secret
-
+       
     You can find how to get the last two mentioned attributes in the README
     """
 
-    def __init__(self,app_api_key:str, app_api_key_secret:str,
-    user_oauth_token:str, user_oauth_token_secret:str) -> None:
-        auth = tweepy.OAuth1UserHandler(app_api_key,app_api_key_secret,
-        user_oauth_token,user_oauth_token_secret)
-        self.tweepy_api = tweepy.API(auth)
+    def __init__(self,app_api_key:str, app_api_key_secret:str) -> None:
+        self.app_api_key = app_api_key
+        self.app_api_key_secret = app_api_key_secret
+        self.tweepy_api = None
 
-    def post_tweet(self, message:str) -> bool:
+    def auth(self,user_oauth_token:str, user_oauth_token_secret:str):
+        """Authenticates bot account into tweepy
+
+        Args:
+             user_oauth_token(str): Bot account token
+            user_oauth_token_secret(str): Bot account token secret
+        """
+        
+        auth = tweepy.OAuth1UserHandler(self.app_api_key,self.app_api_key_secret,
+        user_oauth_token,user_oauth_token_secret)
+        
+        self.tweepy_api = tweepy.API(auth)
+        
+    def post_tweet(self, price:int, isBiggerThanLast:bool, coinSymbol:str
+    ) -> bool:
         """Posts a tweet on a given account
 
         Args:
@@ -33,6 +44,10 @@ class Twitter():
         Returns:
             bool: Status
         """
+
+        if isBiggerThanLast:
+            message = f"${coinSymbol} is "
+
         print(self.tweepy_api.update_status(message))
         
         

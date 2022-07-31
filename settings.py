@@ -11,13 +11,13 @@ class Settings:
     """
 
     def __init__(self, config_file_path:str = None) -> None:
-        self.is_first_run = None
         self.coins = []
         self.config_file_path = config_file_path
         
         self.twitter_api_key = None
         self.twitter_api_key_secret = None
-
+        self.cmc_api_key = None
+        
     def save(self):
         """
             Saves settings on current configuration file path
@@ -26,7 +26,6 @@ class Settings:
             bool: Status of the operation
         """
         settings_dict ={
-            "isFirstRun": self.is_first_run
         }
 
         try:
@@ -50,11 +49,10 @@ class Settings:
         
         try:
             settings = self._config_file2json()
-            self.is_first_run = settings["isFirstRun"]
             self.coins = self._get_coins_list(settings["coins"])
-            self.twitter_api_key =  settings["APIKey"]
-            self.twitter_api_key_secret = settings ["APIKeySecret"]
-        
+            self.twitter_api_key =  settings["twitterOAuth2"]["APIKey"]
+            self.twitter_api_key_secret = settings["twitterOAuth2"]["APIKeySecret"]
+            self.cmc_api_key = settings["CMCAPIKey"]
         except KeyError:
 
             print("Wrong configuration file format.")
@@ -77,7 +75,7 @@ class Settings:
             last_price = json_coin["lastPricePosted"]
             token = json_coin["twitterAccount"]["oauthToken"]
             secret = json_coin["twitterAccount"]["oauthTokenSecret"]
-
+            
 
             coin = Coin(symbol, interval, last_price,token,secret)
             coins.append(coin)
