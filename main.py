@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     #Set bot settings
 
-    settings = Settings("")
+    settings = Settings("config_personal.json")
 
     IS_LOADED = settings.load()
 

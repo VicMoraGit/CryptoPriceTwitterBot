@@ -22,7 +22,7 @@ class Settings:
             bool: Status of the operation
         """
         settings_dict ={
-            "isFirstRun": self.is_first_run,
+            "isFirstRun": self.is_first_run
         }
 
         try:
@@ -42,9 +42,12 @@ class Settings:
         Returns:
             bool: Status of the operation
         """
+        
+        
         try:
             settings = self._config_file2json()
             self.is_first_run = settings["isFirstRun"]
+            
 
         except KeyError:
 
@@ -57,6 +60,12 @@ class Settings:
             return False
 
         return True
+
+    def _get_coins_list(self, jsonCoins:dict):
+        coins = []
+
+        for coin in jsonCoins:
+            
 
     def _config_file2json(self):
 
