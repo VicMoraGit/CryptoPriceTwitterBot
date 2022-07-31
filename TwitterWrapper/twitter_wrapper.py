@@ -50,6 +50,6 @@ class Twitter():
         else:
             message = f"${coin_symbol} has fallen to ${str(price)}📉"
 
-        print(self.tweepy_api.update_status(message))
+        self.tweepy_api.update_status(message)
         
         
