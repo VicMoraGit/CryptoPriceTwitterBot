@@ -19,6 +19,14 @@ class CMC():
         self.api_key = api_key
 
     def get_coin_price(self, coin_symbol:str):
+        """Returns price of a given coin
+
+        Args:
+            coin_symbol (str): Coin symbol, e.g. ETH,BTC,BNB...
+
+        Returns:
+            _type_: _description_
+        """
         headers = {"X-CMC_PRO_API_KEY":self.api_key}
 
         url = "https://pro-api.coinmarketcap.com/"
@@ -28,4 +36,5 @@ class CMC():
 
         response = get(complete_url,headers=headers)
         price = response.json()["data"][coin_symbol][0]["quote"]["USD"]["price"]
+        
         return price
