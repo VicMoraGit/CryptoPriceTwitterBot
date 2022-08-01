@@ -82,9 +82,7 @@ if __name__ == "__main__":
         # the next higher interval
         #And posts a tweet (after authenticating to twitter)
         if (lastPrice > currentPriceIntervalRounded and
-        lastPrice-coin.interval >= currentPrice) or 
-        (lastPrice < currentPriceIntervalRounded and
-        lastPrice+coin.interval <= currentPrice):
+        lastPrice-coin.interval >= currentPrice) or (lastPrice < currentPriceIntervalRounded and lastPrice+coin.interval <= currentPrice):
             is_bigger_than_last =lastPrice<currentPrice
 
             #Twitter authentication
