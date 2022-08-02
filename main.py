@@ -4,7 +4,7 @@
 """
 #Standard imports
 
-from math import floor
+from math import floor, ceil
 
 #Exceptions
 from custom_exceptions import SettingsNotLoadedException
@@ -28,6 +28,18 @@ def myfloor(num:float, base:int):
         _type_: _description_
     """
     return base * floor(num/base)
+
+def myceil(num:float, base:int):
+    """ceils a number using a specific base
+
+    Args:
+        num (float): floating number
+        base (int): base
+
+    Returns:
+        _type_: _description_
+    """
+    return base * ceil(num/base)
 
 def get_coin_symbols(coins):
     """returns all the coin symbols in a list
@@ -71,27 +83,47 @@ if __name__ == "__main__":
     for coin in settings.coins:
 
         #Price comparison
+        last_interval_price = coin.last_price
+        current_price = round(price_dict[coin.symbol],2)
+        price_has_changed = False
 
-        currentPrice = round(price_dict[coin.symbol],2)
-        currentPriceIntervalRounded = myfloor(currentPrice,coin.interval)
 
-        lastPrice = coin.last_price
+        #Checks if price is lower than the next lower interval e.g:
+        # - current price -> 1607.43
+        # - last price interval -> 1650
+        # - next interval -> 1600
+        # NOT REACHED, NO POST
+        # If it reached it, ceil the current price to get the last price interval.
+        
+
+        
+        if current_price < last_interval_price-coin.interval:
+            current_price_interval_rounded = myceil(current_price,coin.interval)
+            price_has_changed = True
+            
+        #Checks if price is lower than the next lower interval e.g:
+        # - current price -> 1607.43
+        # - last price interval -> 1650
+        # - next interval -> 1600
+        # NOT REACHED, NO POST
+        # If it reached it, ceil the current price to get the last price interval.
+
+        if current_price > last_interval_price+coin.interval:
+            current_price_interval_rounded = myfloor(current_price,coin.interval)
+            price_has_changed = True
        
-        #If price is less than last interval it checks if it reached the next lower interval
-        #If price is higuer than last interval it checks if it reached 
-        # the next higher interval
-        #And posts a tweet (after authenticating to twitter)
-        if (lastPrice > currentPriceIntervalRounded and
-        lastPrice-coin.interval >= currentPrice) or (lastPrice < currentPriceIntervalRounded and lastPrice+coin.interval <= currentPrice):
-            is_bigger_than_last =lastPrice<currentPrice
+        #Posts a tweet if price changed(after authenticating to twitter)
+       
+        if price_has_changed:
+            is_bigger_than_last = current_price > last_interval_price
 
             #Twitter authentication
 
             tw.auth(coin.token, coin.secret)
             #Posts tweet based on price info
-            tw.post_tweet(currentPrice, is_bigger_than_last, coin.symbol)
+            tw.post_tweet(current_price, is_bigger_than_last, coin.symbol)
 
             #Saves the new price in the personal settings
-            coin.last_price = currentPriceIntervalRounded
+            coin.last_price = current_price_interval_rounded
 
             settings.save()
