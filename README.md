@@ -13,4 +13,9 @@ You will be able to get the "permanent" twitter tokens following the process sho
 
 Have fun tweaking and modifying the bot! 
 
+MY TWITTER ACCOUNTS:
+
+https://twitter.com/ETHPrice_Bot
+https://twitter.com/BTC_PriceBot
+
 Made with ♥ by Victor Mora.
